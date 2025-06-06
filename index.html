@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eid Mubarak Greeting</title>
+    
+    <!-- Google Fonts for a modern look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* CSS Variables for easy theme management */
+        :root {
+            --primary-color: #ffffff;
+            --secondary-color: #f0f0f0;
+            --accent-color-1: #4CAF50;
+            --accent-color-2: #2196F3;
+            --background-start: #1a2a6c;
+            --background-end: #b21f1f;
+            --background-fallback: #2d3436;
+            --shadow-color: rgba(0, 0, 0, 0.2);
+            --glow-color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Basic Reset and Body Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--primary-color);
+            background-color: var(--background-fallback);
+            background-image: linear-gradient(135deg, var(--background-start), var(--background-end));
+            padding: 20px;
+            /* Added padding-bottom to prevent content from being hidden behind the ad */
+            padding-bottom: 70px; 
+            overflow-x: hidden;
+        }
+
+        /* Main container with Glassmorphism effect */
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 var(--shadow-color);
+            padding: 30px;
+            text-align: center;
+            animation: fadeInCard 1s ease-out;
+        }
+
+        @keyframes fadeInCard {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* 1. Responsive GIF Image */
+        .eid-gif {
+            width: 100%;
+            max-width: 250px;
+            height: auto;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+        }
+
+        /* 2. Festive Greeting Text */
+        .greeting-text {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            background: linear-gradient(45deg, var(--accent-color-1), var(--accent-color-2), #FFEB3B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 15px var(--glow-color);
+            animation: fadeInText 1.5s ease-in-out 0.5s backwards;
+        }
+
+        @keyframes fadeInText {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 3. Name Input Field */
+        .name-input {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--primary-color);
+            font-size: 1em;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .name-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .name-input:focus {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px var(--glow-color);
+        }
+
+        /* 4. Generate Wish Button */
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            outline: 2px solid transparent;
+        }
+
+        .btn-generate {
+            background: linear-gradient(45deg, var(--accent-color-2), var(--accent-color-1));
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px var(--shadow-color);
+            outline: 2px solid var(--primary-color);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* 5. Custom Message and Share Button Container */
+        #custom-message-container {
+            display: none; /* Initially hidden */
+            animation: slideInUp 0.5s ease-out;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .custom-wish {
+            font-size: 1.2em;
+            font-weight: 500;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            color: var(--secondary-color);
+        }
+
+        .btn-whatsapp {
+            background-color: #25D366;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-whatsapp .whatsapp-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* 6. Audio Mute Toggle */
+        .mute-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+            z-index: 1000; /* Ensures button is above the ad */
+        }
+
+        .mute-toggle:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.1);
+        }
+
+        .mute-toggle svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--primary-color);
+        }
+
+        /* --- ADSTERRA AD CONTAINER STYLE --- */
+        .ad-container {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 320px;
+            height: 50px;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 6. Background Audio Element -->
+    <audio id="background-music" src="song.mp3" loop autoplay></audio>
+
+    <div class="container">
+        <!-- 1. Centered and Responsive GIF -->
+        <img src="eid.gif" alt="Eid Mubarak Animation" class="eid-gif">
+
+        <!-- 2. Festive Greeting Text -->
+        <h1 class="greeting-text">✨ Eid Mubarak! May this Eid bring joy, peace, and prosperity to all! ✨</h1>
+
+        <!-- 3. Name Input Field -->
+        <input type="text" id="nameInput" class="name-input" placeholder="Enter your name here...">
+        
+        <!-- 4. Generate Wish Button -->
+        <button id="generateBtn" class="btn btn-generate">Generate Eid Wish</button>
+
+        <!-- 5. Container for Custom Message and Share Button -->
+        <div id="custom-message-container">
+            <p id="customWish" class="custom-wish"></p>
+            <button id="shareBtn" class="btn btn-whatsapp">
+                <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.886-.001 2.267.651 4.383 1.891 6.196l-1.138 4.156 4.274-1.119z" />
+                </svg>
+                Share on WhatsApp
+            </button>
+        </div>
+    </div>
+
+    <!-- Mute/Unmute Toggle Button -->
+    <button id="mute-toggle-btn" class="mute-toggle">
+        <!-- SVG icons will be toggled by JS -->
+    </button>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Element References ---
+            const generateBtn = document.getElementById('generateBtn');
+            const nameInput = document.getElementById('nameInput');
+            const messageContainer = document.getElementById('custom-message-container');
+            const customWishElement = document.getElementById('customWish');
+            const shareBtn = document.getElementById('shareBtn');
+            
+            // Audio elements
+            const audio = document.getElementById('background-music');
+            const muteToggleBtn = document.getElementById('mute-toggle-btn');
+            
+            // SVG Icons for mute/unmute
+            const volumeIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>`;
+            const muteIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>`;
+
+            // --- Audio Handling ---
+            // Browsers often block autoplay with sound. We'll try to play, and if it fails, the user can unmute manually.
+            let isMuted = true; // Assume muted initially
+
+            const setupAudio = async () => {
+                try {
+                    await audio.play();
+                    // If play succeeds, it's not muted by the browser
+                    audio.muted = false;
+                    isMuted = false;
+                } catch (error) {
+                    // Autoplay was blocked, keep it muted
+                    audio.muted = true;
+                    isMuted = true;
+                    console.warn("Autoplay with sound was blocked by the browser. Audio is muted.");
+                }
+                updateMuteIcon();
+            };
+            
+            function updateMuteIcon() {
+                muteToggleBtn.innerHTML = isMuted ? muteIcon : volumeIcon;
+            }
+
+            function toggleMute() {
+                isMuted = !isMuted;
+                audio.muted = isMuted;
+                updateMuteIcon();
+            }
+
+            // --- Event Listeners ---
+            generateBtn.addEventListener('click', () => {
+                const name = nameInput.value.trim();
+                const displayName = name ? name : "Your Friend"; // Use a default if name is empty
+                
+                // 4. Create custom greeting
+                const wish = `Eid Mubarak from ${displayName}! 🥳 Wishing you happiness and blessings!`;
+                customWishElement.innerText = wish;
+                
+                // Show the message and share button
+                messageContainer.style.display = 'block';
+            });
+
+            shareBtn.addEventListener('click', () => {
+                const message = customWishElement.innerText;
+                const pageUrl = window.location.href;
+                
+                // 10. Construct the WhatsApp share link
+                const whatsappText = encodeURIComponent(`${message}\n\nCreate your own wish here: ${pageUrl}`);
+                const whatsappUrl = `https://api.whatsapp.com/send?text=${whatsappText}`;
+                
+                // Open in a new tab
+                window.open(whatsappUrl, '_blank');
+            });
+            
+            muteToggleBtn.addEventListener('click', toggleMute);
+
+            // --- Initial Setup ---
+            setupAudio();
+        });
+    </script>
+
+    <!-- ======== ADSTERRA SCRIPT START ======== -->
+    <div class="ad-container">
+        <script type="text/javascript">
+            atOptions = {
+                'key' : '130ed1dd7b19fc2fd23d648c82c0fdff',
+                'format' : 'iframe',
+                'height' : 50,
+                'width' : 320,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/130ed1dd7b19fc2fd23d648c82c0fdff/invoke.js"></script>
+    </div>
+    <!-- ======== ADSTERRA SCRIPT END ======== -->
+
+</body>
+</html>
