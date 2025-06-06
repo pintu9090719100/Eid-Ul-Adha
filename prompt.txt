@@ -1,0 +1,42 @@
+> Create a single mobile-friendly HTML file for an Eid greeting webpage. The design should be modern and clean. Here's what the page must include:
+
+1. At the top of the page, display a .gif image (file name: eid.gif). It should be centered and fully responsive.
+
+
+2. Below the image, show a festive greeting text like: "✨ Eid Mubarak! May this Eid bring joy, peace, and prosperity to all! ✨" with beautiful styling (e.g., gradient text, glowing shadow, or animated fade-in).
+
+
+3. Under the greeting, include a text input field where the user can type their name.
+
+
+4. Below the input, show a stylish "Generate Eid Wish" button with animation and outline. On clicking, it should create a custom Eid greeting message using the entered name, like:
+"Eid Mubarak from [Your Name]! 🎉 Wishing you happiness and blessings!".
+
+
+5. Below the greeting message, show a "Share on WhatsApp" button with WhatsApp icon and animation. On clicking, it should open WhatsApp share window with the message and a link to the current site (window.location.href).
+
+
+6. As soon as the page loads, play the song.mp3 file (background music). Make sure the audio is set to autoplay and loop, with a volume control option or mute toggle.
+
+
+7. The entire design should be optimized for mobile devices and look festive and clean. Use modern CSS (glassmorphism or neon theme welcome), animated buttons, and smooth transitions.
+
+
+8. Everything (HTML, CSS, JS) should be written in one single .html file. Do not separate the files.
+
+
+9. Include a <style> and <script> section inside the HTML. Also, include meta tags for responsive mobile view.
+
+
+10. Ensure that the WhatsApp sharing works perfectly with mobile browsers when hosted on GitHub Pages.
+
+
+
+I will upload two files to the same directory:
+
+eid.gif — the image to be shown at the top
+
+song.mp3 — the background audio
+
+
+Use relative links like <img src="eid.gif"> and <audio src="song.mp3"> in the code.
