@@ -41,7 +41,6 @@
             background-color: var(--background-fallback);
             background-image: linear-gradient(135deg, var(--background-start), var(--background-end));
             padding: 20px;
-            /* Added padding-bottom to prevent content from being hidden behind the ad */
             padding-bottom: 70px; 
             overflow-x: hidden;
         }
@@ -66,7 +65,7 @@
             to { opacity: 1; transform: scale(1); }
         }
 
-        /* 1. Responsive GIF Image */
+        /* Responsive GIF Image */
         .eid-gif {
             width: 100%;
             max-width: 250px;
@@ -76,7 +75,7 @@
             box-shadow: 0 4px 15px var(--shadow-color);
         }
 
-        /* 2. Festive Greeting Text */
+        /* Festive Greeting Text */
         .greeting-text {
             font-size: 1.5em;
             font-weight: 600;
@@ -86,14 +85,26 @@
             -webkit-text-fill-color: transparent;
             text-shadow: 0 0 15px var(--glow-color);
             animation: fadeInText 1.5s ease-in-out 0.5s backwards;
+            line-height: 1.4;
         }
+        
+        /* Sub-text style for the sender's name */
+        .greeting-text .from-name {
+            display: block;
+            margin-top: 10px;
+            font-size: 0.9em;
+            font-weight: 700;
+            background: linear-gradient(45deg, #FFEB3B, #ffffff);
+            -webkit-background-clip: text;
+        }
+
 
         @keyframes fadeInText {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* 3. Name Input Field */
+        /* Name Input Field */
         .name-input {
             width: 100%;
             padding: 12px 15px;
@@ -117,7 +128,7 @@
             box-shadow: 0 0 10px var(--glow-color);
         }
 
-        /* 4. Generate Wish Button */
+        /* Generate Wish Button */
         .btn {
             width: 100%;
             padding: 15px;
@@ -148,7 +159,7 @@
             transform: translateY(-1px);
         }
 
-        /* 5. Custom Message and Share Button Container */
+        /* Custom Message and Share Button Container */
         #custom-message-container {
             display: none; /* Initially hidden */
             animation: slideInUp 0.5s ease-out;
@@ -185,7 +196,7 @@
             height: 24px;
         }
 
-        /* 6. Audio Mute Toggle */
+        /* Audio Mute Toggle */
         .mute-toggle {
             position: fixed;
             bottom: 20px;
@@ -229,23 +240,24 @@
 </head>
 <body>
 
-    <!-- 6. Background Audio Element -->
-    <audio id="background-music" src="song.mp3" loop autoplay></audio>
+    <!-- Background Audio Element - Requires a 'song.mp3' file in the same folder -->
+    <!-- CHANGED: Removed 'autoplay' attribute -->
+    <audio id="background-music" src="song.mp3" loop></audio>
 
     <div class="container">
-        <!-- 1. Centered and Responsive GIF -->
+        <!-- Centered and Responsive GIF -->
         <img src="eid.gif" alt="Eid Mubarak Animation" class="eid-gif">
 
-        <!-- 2. Festive Greeting Text -->
-        <h1 class="greeting-text">✨ Eid Mubarak! May this Eid bring joy, peace, and prosperity to all! ✨</h1>
+        <!-- Festive Greeting Text -->
+        <h1 id="greetingText" class="greeting-text">✨ Eid Mubarak! May this Eid bring joy, peace, and prosperity to all! ✨</h1>
 
-        <!-- 3. Name Input Field -->
+        <!-- Name Input Field -->
         <input type="text" id="nameInput" class="name-input" placeholder="Enter your name here...">
         
-        <!-- 4. Generate Wish Button -->
+        <!-- Generate Wish Button -->
         <button id="generateBtn" class="btn btn-generate">Generate Eid Wish</button>
 
-        <!-- 5. Container for Custom Message and Share Button -->
+        <!-- Container for Custom Message and Share Button -->
         <div id="custom-message-container">
             <p id="customWish" class="custom-wish"></p>
             <button id="shareBtn" class="btn btn-whatsapp">
@@ -270,6 +282,7 @@
             const messageContainer = document.getElementById('custom-message-container');
             const customWishElement = document.getElementById('customWish');
             const shareBtn = document.getElementById('shareBtn');
+            const greetingText = document.getElementById('greetingText');
             
             // Audio elements
             const audio = document.getElementById('background-music');
@@ -280,63 +293,86 @@
             const muteIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>`;
 
             // --- Audio Handling ---
-            // Browsers often block autoplay with sound. We'll try to play, and if it fails, the user can unmute manually.
-            let isMuted = true; // Assume muted initially
+            let isMuted = true; // Audio starts in a muted state conceptually
 
-            const setupAudio = async () => {
-                try {
-                    await audio.play();
-                    // If play succeeds, it's not muted by the browser
-                    audio.muted = false;
-                    isMuted = false;
-                } catch (error) {
-                    // Autoplay was blocked, keep it muted
-                    audio.muted = true;
-                    isMuted = true;
-                    console.warn("Autoplay with sound was blocked by the browser. Audio is muted.");
-                }
-                updateMuteIcon();
+            // CHANGED: Simplified setupAudio. No async, no initial play attempt.
+            const setupAudio = () => {
+                audio.muted = true; // Ensure the HTML element is muted
+                isMuted = true;     // Sync our state variable
+                updateMuteIcon();   // Update the button icon
             };
             
             function updateMuteIcon() {
                 muteToggleBtn.innerHTML = isMuted ? muteIcon : volumeIcon;
             }
 
+            // CHANGED: Modified toggleMute to handle the first play
             function toggleMute() {
-                isMuted = !isMuted;
-                audio.muted = isMuted;
+                isMuted = !isMuted; // Toggle our internal state
+                audio.muted = isMuted; // Apply the state to the audio element
+
+                if (!isMuted && audio.paused) { 
+                    // If we are unmuting AND the audio is currently paused (e.g., hasn't played yet)
+                    audio.play().catch(error => {
+                        console.error("Audio play failed:", error);
+                        // If play fails (e.g., file not found, or unexpected browser issue),
+                        // revert to muted state to avoid confusion.
+                        isMuted = true;
+                        audio.muted = true;
+                    });
+                }
                 updateMuteIcon();
+            }
+
+            // --- NEW: Function to check for sender's name in URL ---
+            function checkForSenderName() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const senderName = urlParams.get('from');
+
+                if (senderName && senderName.trim() !== '') {
+                    // This is a received wish. Show the personalized greeting.
+                    const decodedName = decodeURIComponent(senderName);
+                    greetingText.innerHTML = `✨ Eid Mubarak! ✨<span class="from-name">From ${decodedName}</span>`;
+
+                    // Hide the input and generate button
+                    nameInput.style.display = 'none';
+                    generateBtn.style.display = 'none';
+                }
+                // If no name, the page loads normally for a sender.
             }
 
             // --- Event Listeners ---
             generateBtn.addEventListener('click', () => {
                 const name = nameInput.value.trim();
-                const displayName = name ? name : "Your Friend"; // Use a default if name is empty
+                const displayName = name ? name : "Your Friend";
                 
-                // 4. Create custom greeting
                 const wish = `Eid Mubarak from ${displayName}! 🥳 Wishing you happiness and blessings!`;
                 customWishElement.innerText = wish;
                 
-                // Show the message and share button
                 messageContainer.style.display = 'block';
             });
 
             shareBtn.addEventListener('click', () => {
-                const message = customWishElement.innerText;
-                const pageUrl = window.location.href;
+                const name = nameInput.value.trim();
+                if (!name) {
+                    alert('Please enter your name first!');
+                    return;
+                }
                 
-                // 10. Construct the WhatsApp share link
-                const whatsappText = encodeURIComponent(`${message}\n\nCreate your own wish here: ${pageUrl}`);
+                const baseUrl = window.location.origin + window.location.pathname;
+                const shareUrl = `${baseUrl}?from=${encodeURIComponent(name)}`;
+                
+                const whatsappText = encodeURIComponent(`🌙 A special Eid Greeting for you from ${name}!\n\nClick the link to see your wish:\n${shareUrl}`);
                 const whatsappUrl = `https://api.whatsapp.com/send?text=${whatsappText}`;
                 
-                // Open in a new tab
                 window.open(whatsappUrl, '_blank');
             });
             
             muteToggleBtn.addEventListener('click', toggleMute);
 
             // --- Initial Setup ---
-            setupAudio();
+            checkForSenderName(); 
+            setupAudio(); // Call the modified setupAudio
         });
     </script>
 
